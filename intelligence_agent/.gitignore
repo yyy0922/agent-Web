@@ -1,9 +1,7 @@
-*.env
 .env
 __pycache__/
 *.pyc
-chroma_db/
+.venv/
+.idea/
 knowledge_base_vectordb/
-data/
-server.log
 intelligence_report.*
