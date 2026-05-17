@@ -22,6 +22,8 @@
 
 ## 快速开始
 
+### 本地运行
+
 ```bash
 # 1. 安装依赖
 pip install -r requirements.txt
@@ -36,9 +38,34 @@ python build_knowledge_base.py # 向量化存入 ChromaDB
 
 # 4. 运行
 python multi_source_agent.py   # CLI 模式
-gradio app.py                  # Web UI 模式
+python app.py                  # Web UI 模式
 uvicorn api:app --port 8000    # API 模式
 ```
+
+### Docker 运行
+
+```bash
+# 1. 配置环境变量
+cp .env.example .env
+# 编辑 .env 填入 DASHSCOPE_API_KEY 和 TAVILY_API_KEY
+
+# 2. 构建并启动（Gradio Web UI，默认端口 7860）
+docker compose up -d
+
+# 3. 构建知识库（首次运行需要）
+docker compose exec intelligence-agent python create_test_docs.py
+docker compose exec intelligence-agent python build_knowledge_base.py
+
+# 4. 查看日志
+docker compose logs -f
+
+# 5. 改用 FastAPI 模式
+# 编辑 docker-compose.yml，取消注释 command 行，注释掉默认 command
+# 然后 docker compose up -d
+```
+
+- Web UI: http://localhost:7860
+- API: http://localhost:8000/chat (FastAPI 模式)
 
 ## 功能
 

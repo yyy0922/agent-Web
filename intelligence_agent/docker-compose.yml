@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  intelligence-agent:
+    build: .
+    container_name: intelligence-agent
+    ports:
+      - "7860:7860"   # Gradio Web UI
+      - "8000:8000"   # FastAPI
+    env_file:
+      - .env
+    volumes:
+      # 持久化 ChromaDB 知识库，避免每次重建
+      - ./knowledge_base_vectordb:/app/knowledge_base_vectordb
+      # 内部文档目录（可热更新）
+      - ./internal_docs:/app/internal_docs
+    # 默认启动 Gradio，可改为 FastAPI：
+    # command: ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]
+    restart: unless-stopped
