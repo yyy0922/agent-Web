@@ -15,7 +15,10 @@ base_dir = Path(__file__).parent
 docs_dir = str(base_dir / "internal_docs")
 db_dir = str(base_dir / "knowledge_base_vectordb")
 
-loader = DirectoryLoader(docs_dir, glob="**/*.md", loader_cls=TextLoader, show_progress=True)
+loader = DirectoryLoader(
+    docs_dir, glob="**/*.md", loader_cls=TextLoader,
+    loader_kwargs={"encoding": "utf-8"}, show_progress=True,
+)
 documents = loader.load()
 print(f"已加载 {len(documents)} 个文档")
 
@@ -36,5 +39,4 @@ vectorstore = Chroma.from_documents(
     embedding=embeddings,
     persist_directory=db_dir,
 )
-vectorstore.persist()
 print("知识库构建成功！")
